@@ -11,7 +11,7 @@ import { usePortfolio } from "@/app/providers";
 
 export default function UploadView() {
   const router = useRouter();
-  const { setStatement, setMetrics } = usePortfolio();
+  const { startNewStatement } = usePortfolio();
   const [state, setState] = useState<UploadState>({ kind: "idle" });
   const [ready, setReady] = useState(false);
 
@@ -42,10 +42,10 @@ export default function UploadView() {
       return;
     }
 
-    // Reset any previously computed metrics — a fresh statement needs a
-    // fresh privacy-layer run before the dashboard shows new numbers.
-    setMetrics(null);
-    setStatement(result);
+    // A fresh statement needs a fresh privacy-layer run and a new history
+    // entry once analyzed — startNewStatement clears any prior metrics so
+    // /dashboard knows to run that flow rather than reuse old numbers.
+    startNewStatement(result);
     setState({ kind: "success", message: `Successfully imported ${result.rowCount} transactions.` });
     setReady(true);
   }

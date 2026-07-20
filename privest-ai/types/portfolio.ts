@@ -86,3 +86,26 @@ export interface PrivacyStep {
   label: string;
   status: PrivacyStepStatus;
 }
+
+/**
+ * A saved analysis, persisted to the browser's localStorage (see
+ * lib/history.ts). Never sent anywhere — this is what makes month-over-month
+ * tracking possible without user accounts.
+ */
+export interface StatementSnapshot {
+  id: string;
+  savedAt: string; // ISO timestamp of when this snapshot was saved
+  periodLabel: string; // most recent "YYYY-MM" with activity in this statement
+  statement: ParsedStatement;
+  metrics: PortfolioMetrics;
+}
+
+/** Result of comparing one snapshot's metrics against the prior one. */
+export type ExpectationStatus = "exceeding" | "meeting" | "below" | "first";
+
+export interface ExpectationComparison {
+  status: ExpectationStatus;
+  netProfitDelta: number;
+  netProfitDeltaPercent: number | null;
+  roiPointDelta: number;
+}

@@ -35,6 +35,14 @@ export const PRIVACY_STEP_LABELS: string[] = [
 
 export const PRIVACY_STEP_DELAY_MS = 750;
 
+export const HISTORY_STORAGE_KEY = "privest_history_v1";
+
+/** Max snapshots kept in localStorage before the oldest are dropped. */
+export const MAX_HISTORY_SNAPSHOTS = 36;
+
+/** Month-over-month change within this band counts as "meeting" rather than exceeding/below. */
+export const EXPECTATION_BAND_PERCENT = 5;
+
 export const SAMPLE_CSV_ROWS: string[][] = [
   ["date", "symbol", "type", "quantity", "price", "fee", "fee_type", "currency"],
   ["2025-08-04", "SCOM", "buy", "500", "17.20", "120", "broker", "KES"],

@@ -1,22 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
+@theme {
+  /* Colors */
+  --color-bg: #F5F7FA;
+  --color-surface: #FFFFFF;
+
+  --color-navy: #0A1F3D;
+  --color-navy-2: #16305A;
+
+  --color-emerald: #0E9D67;
+  --color-emerald-soft: #E5F6EE;
+
+  --color-red: #D6484A;
+  --color-red-soft: #FBEAEA;
+
+  --color-grey: #6B7280;
+  --color-grey-light: #E7EAEF;
+
+  --color-teal: #0E8A8A;
+
+  --color-gold: #C6862E;
+  --color-gold-soft: #FBF0DF;
+
+  /* Fonts */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Radius */
+  --radius-card: 14px;
+
+  /* Shadow */
+  --shadow-card: 0 1px 2px rgba(10, 31, 61, 0.04),
+    0 8px 24px rgba(10, 31, 61, 0.06);
+}
+
 html,
 body {
-  background: #F5F7FA;
-  color: #0A1F3D;
+  background: var(--color-bg);
+  color: var(--color-navy);
+  font-family: var(--font-body);
 }
 
 .num {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
 }
 
+/* Pulse */
+
 @keyframes privest-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(14, 138, 138, 0.25);
   }
+
   50% {
     box-shadow: 0 0 0 14px rgba(14, 138, 138, 0);
   }
@@ -26,10 +65,14 @@ body {
   animation: privest-pulse 1.8s ease-in-out infinite;
 }
 
+/* Fade */
+
 @keyframes privest-spin-fade {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
   }
+
   50% {
     opacity: 1;
   }
@@ -38,6 +81,8 @@ body {
 .animate-privest-step {
   animation: privest-spin-fade 1s ease-in-out infinite;
 }
+
+/* Spinner */
 
 @keyframes privest-spin {
   to {

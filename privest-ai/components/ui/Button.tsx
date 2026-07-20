@@ -17,6 +17,26 @@ const variants: Record<Variant, string> = {
     "bg-transparent text-navy border border-grey-light px-4 py-2 text-[13.5px] rounded-lg hover:bg-bg",
 };
 
-export default function Button({ variant = "primary", className = "", ...props }: ButtonProps) {
-  return <button className={`${base} ${variants[variant]} ${className}`} {...props} />;
+// Inline fallback colors: if a custom Tailwind color utility (bg-navy,
+// text-navy, etc.) ever fails to generate — e.g. a stale build cache, a
+// content-scanning miss — the button still renders with correct contrast
+// instead of silently becoming invisible text-on-background.
+const inlineFallback: Record<Variant, React.CSSProperties> = {
+  primary: { backgroundColor: "#0A1F3D", color: "#FFFFFF" },
+  ghost: { backgroundColor: "transparent", color: "#0A1F3D" },
+};
+
+export default function Button({
+  variant = "primary",
+  className = "",
+  style,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={`${base} ${variants[variant]} ${className}`}
+      style={{ ...inlineFallback[variant], ...style }}
+      {...props}
+    />
+  );
 }

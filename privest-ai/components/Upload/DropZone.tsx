@@ -33,6 +33,7 @@ export default function Dropzone({ onFile }: { onFile: (file: File) => void }) {
       <p className="text-grey text-[13.5px] mb-5">or choose a file from your device</p>
       <button
         className="bg-navy text-white px-5 py-2.5 rounded-lg text-[13.5px] font-semibold"
+        style={{ backgroundColor: "#0A1F3D", color: "#FFFFFF" }}
         onClick={() => inputRef.current?.click()}
       >
         Browse files

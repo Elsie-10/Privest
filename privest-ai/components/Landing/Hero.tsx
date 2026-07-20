@@ -36,6 +36,7 @@ export default function Hero() {
       <Link
         href="/upload"
         className="inline-flex items-center gap-2 bg-navy text-white px-8 py-4 rounded-xl text-base font-semibold shadow-card hover:bg-navy-2 hover:-translate-y-0.5 transition-all"
+        style={{ backgroundColor: "#0A1F3D", color: "#FFFFFF" }}
       >
         Analyze Portfolio →
       </Link>

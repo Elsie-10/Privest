@@ -8,7 +8,15 @@ import { parseCsvFile, buildSampleCsv } from "@/lib/csvParser";
 import { computePortfolioMetrics } from "@/lib/calculations";
 import { simulatePrivacyLayer } from "@/lib/midnight";
 import { fetchAiInsights } from "@/lib/ai";
-import { Insight, ParsedStatement, PortfolioMetrics } from "@/types/portfolio";
+import * as history from "@/lib/history";
+import { compareToExpectation } from "@/utils/expectationComparator";
+import {
+  ExpectationComparison,
+  Insight,
+  ParsedStatement,
+  PortfolioMetrics,
+  StatementSnapshot,
+} from "@/types/portfolio";
 
 export const portfolioService = {
   /** Step 1 (default): parse and validate an uploaded CSV file entirely client-side. */
@@ -48,5 +56,35 @@ export const portfolioService = {
   /** Step 4: fetch AI-generated (or rule-based fallback) insights. */
   async getInsights(metrics: PortfolioMetrics): Promise<Insight[]> {
     return fetchAiInsights(metrics);
+  },
+
+  /** Step 5: persist this analysis to local history (browser-only, no login). */
+  saveSnapshot(statement: ParsedStatement, metrics: PortfolioMetrics): StatementSnapshot {
+    return history.saveSnapshot(statement, metrics);
+  },
+
+  /** All saved snapshots, oldest first. */
+  getHistory(): StatementSnapshot[] {
+    return history.getSnapshots();
+  },
+
+  getPreviousSnapshot(currentSnapshotId: string): StatementSnapshot | null {
+    return history.getPreviousSnapshot(currentSnapshotId);
+  },
+
+  deleteSnapshot(id: string): void {
+    history.deleteSnapshot(id);
+  },
+
+  clearHistory(): void {
+    history.clearHistory();
+  },
+
+  /** Judges exceeding/meeting/below purely by comparing to the previous snapshot. */
+  compareToLastMonth(
+    current: PortfolioMetrics,
+    previous: PortfolioMetrics | null
+  ): ExpectationComparison {
+    return compareToExpectation(current, previous);
   },
 };
