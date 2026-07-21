@@ -1,388 +1,154 @@
-# 🔒 Privest AI
+# Privest AI — Next.js build
 
-> **A Privacy-First AI Investment Analyst for Retail Investors**
+Privacy-first investment intelligence, structured as a scalable Next.js
+(App Router + TypeScript + Tailwind) application with real routes, a
+context-based state layer, and a clean separation between UI, business
+logic, and shared primitives.
 
-Privest AI is a privacy-preserving investment analytics platform that empowers retail investors to understand their portfolio performance without exposing sensitive financial data. Built on **Midnight**, the application combines AI-powered insights with confidential computation to help users analyze profits, losses, transaction fees, and investment behavior while keeping their financial information private.
-
----
-
-# 📖 Table of Contents
-
-- [Overview](#-overview)
-- [Problem Statement](#-problem-statement)
-- [Solution](#-solution)
-- [Why Midnight?](#-why-midnight)
-- [Features](#-features)
-- [Technology Stack](#-technology-stack)
-- [Architecture](#-architecture)
-- [MVP Scope](#-mvp-scope)
-- [Future Roadmap](#-future-roadmap)
-- [Installation](#-installation)
-- [Project Structure](#-project-structure)
-- [Screenshots](#-screenshots)
-- [Demo](#-demo)
-- [Documentation](#-documentation)
-- [License](#-license)
-
----
-
-# 🌍 Overview
-
-Retail investors often rely on spreadsheets or online portfolio trackers to monitor their investments. While these tools provide useful analytics, they typically require users to upload sensitive financial statements to centralized servers.
-
-This creates significant privacy concerns, as investment records reveal:
-
-- Portfolio value
-- Trading history
-- Investment strategies
-- Financial habits
-- Personal wealth
-
-**Privest AI** addresses this challenge by allowing investors to securely analyze their portfolios while maintaining complete control over their financial data.
-
-Using Midnight's privacy-preserving capabilities, sensitive information remains confidential while users receive meaningful insights and portfolio analytics.
-
----
-
-# ❗ Problem Statement
-
-Retail investors face several common challenges:
-
-- 📉 Difficulty determining actual profits and losses
-- 💸 Hidden transaction fees reducing investment returns
-- 📊 Limited understanding of portfolio performance
-- 🔍 Lack of insights into trading behavior
-- 🔐 Privacy concerns when uploading financial statements to third-party platforms
-
-Current investment tracking platforms often prioritize convenience over privacy, requiring users to trust centralized services with highly sensitive financial information.
-
----
-
-# 💡 Solution
-
-Privest AI provides a secure, privacy-first investment analysis platform where users can:
-
-- Upload investment statements securely
-- Calculate portfolio performance
-- Analyze profits and losses
-- Detect hidden transaction costs
-- Receive AI-generated financial insights
-- Understand portfolio health
-- Maintain complete privacy over sensitive financial information
-
-Rather than exposing raw financial records, Midnight enables confidential computation where only the analysis results are revealed to the user.
-
----
-
-# 🔒 Why Midnight?
-
-Traditional applications process financial data on centralized servers, requiring users to expose confidential information.
-
-Midnight enables confidential smart contracts that allow sensitive data to remain private while still performing meaningful computations.
-
-With Privest AI:
-
-✅ Portfolio analytics are generated securely
-
-✅ Financial records remain confidential
-
-✅ Investment strategies stay private
-
-✅ Users maintain ownership of their financial information
-
----
-
-# ✨ Features
-
-## 📂 Secure Statement Upload
-
-- Upload brokerage statements (CSV)
-- Validate uploaded files
-- Parse investment transactions
-- Secure data processing
-
----
-
-## 📈 Portfolio Dashboard
-
-Monitor your investment performance through a clean dashboard displaying:
-
-- Total Amount Invested
-- Current Portfolio Value
-- Total Profit/Loss
-- Percentage Return
-- Investment Summary
-
----
-
-## 💸 Transaction Fee Analyzer
-
-Understand how hidden costs impact investment performance.
-
-Analyze:
-
-- Brokerage Fees
-- Trading Fees
-- Exchange Charges
-- Taxes
-- Total Transaction Costs
-
-Example Insight:
-
-> "Transaction fees consumed 14.2% of your overall profits."
-
----
-
-## 🤖 AI Financial Insights
-
-Receive personalized portfolio analysis including:
-
-- Biggest winning investments
-- Biggest losing investments
-- Portfolio trends
-- Trading frequency analysis
-- Potential overtrading detection
-- Portfolio concentration warnings
-- Fee impact summaries
-
----
-
-## 📊 Investment Health Score *(Stretch Goal)*
-
-Generate an overall portfolio score based on:
-
-- Diversification
-- Fee efficiency
-- Trading behavior
-- Risk exposure
-- Portfolio balance
-
----
-
-## 🔐 Privacy-First Processing
-
-Unlike traditional portfolio trackers:
-
-- Sensitive investment records remain private
-- Raw financial data is never publicly exposed
-- Users control what information is shared
-
----
-
-# 🛠 Technology Stack
-
-## Frontend
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-
-## Backend
-
-- Node.js
-- Express.js
-
-## Blockchain
-
-- Midnight
-
-## Artificial Intelligence
-
-- OpenAI API *(or another LLM provider)*
-
-## Data Processing
-
-- CSV Parser
-- PDF Parser *(Future)*
-
-## Deployment
-
-- Vercel
-- Render
-
----
-
-# 🏗 Architecture
-
-```text
-                User
-
-                  │
-
-        Upload Investment Statement
-
-                  │
-
-        Secure Data Processing
-
-                  │
-
-     Midnight Privacy Layer
-
-                  │
-
-      AI Portfolio Analysis
-
-                  │
-
-     Dashboard & Insights
-```
-
----
-
-# 🚀 MVP Scope
-
-The initial hackathon version will include:
-
-- [ ] CSV Statement Upload
-- [ ] Transaction Parser
-- [ ] Portfolio Dashboard
-- [ ] Profit & Loss Calculator
-- [ ] Fee Analysis
-- [ ] AI Portfolio Insights
-- [ ] Midnight Privacy Integration
-- [ ] Responsive User Interface
-
----
-
-# 🗺 Future Roadmap
-
-### Phase 1
-
-- Privacy-preserving portfolio analytics
-
-### Phase 2
-
-- AI Financial Copilot
-
-### Phase 3
-
-- Multiple broker integrations
-
-### Phase 4
-
-- Dividend tracking
-
-### Phase 5
-
-- Tax estimation
-
-### Phase 6
-
-- Mobile application
-
-### Phase 7
-
-- AI-powered financial planning
-
----
-
-# ⚙ Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/yourusername/privest-ai.git
-```
-
-Navigate into the project
-
-```bash
-cd privest-ai
-```
-
-Install dependencies
+## Getting started
 
 ```bash
 npm install
-```
-
-Run development server
-
-```bash
+cp .env.local.example .env.local   # optional — add your ANTHROPIC_API_KEY
 npm run dev
 ```
 
----
+Open http://localhost:3000. On the `/upload` screen, use "Download a
+sample CSV" if you don't have your own statement handy.
 
-# 📁 Project Structure
+Without `ANTHROPIC_API_KEY` set, the AI Insights panel automatically falls
+back to the rule-based insights in `lib/ai.ts` — the app is fully
+functional either way.
 
-```text
-privest-ai/
-│
-├── app/
-├── components/
-├── services/
-├── lib/
-├── utils/
-├── contracts/
-├── public/
-├── styles/
-├── package.json
-└── README.md
+## How navigation and state work
+
+`/` → `/upload` → `/dashboard` → `/history` are real Next.js routes, not
+client-side view toggles. In-progress state (the parsed statement and
+computed metrics) lives in `app/providers.tsx`, a React context mounted
+once in the root layout. Client-side navigation (`next/link`,
+`router.push`) keeps that provider mounted, so state survives the trip
+from upload to dashboard without localStorage. A hard refresh on
+`/dashboard` has no statement in memory, so it redirects back to
+`/upload` by design.
+
+The privacy-layer animation runs *inside* `/dashboard`: if a statement
+exists but metrics haven't been computed yet, the page renders
+`PrivacyFlow` first; once it completes, metrics are computed **and saved
+as a new history entry** (see below), and the real dashboard renders in
+its place.
+
+## Accounts and history — deliberately no login
+
+There's no sign-up/sign-in anywhere in this app, and that's a design
+choice, not a gap: adding real accounts means adding a backend + database,
+which conflicts with the "nothing leaves your browser" pitch unless paired
+with genuine Midnight confidential storage (see Roadmap).
+
+Instead, every analyzed statement is saved to **this browser's own
+localStorage** (`lib/history.ts`) — never sent anywhere. That's enough to
+solve the actual use case: upload a new statement each month and
+`/history` shows every past one, with each compared automatically against
+the one before it (`utils/expectationComparator.ts`) to judge whether
+you're **exceeding, meeting, or below** your previous month — no manually
+set targets required. The trade-off is stated plainly: this history is
+tied to one browser on one device. Clearing site data (or switching
+browsers/devices) starts you over. If cross-device history matters more
+than that trade-off, that's the point at which real accounts + a database
+become worth the added complexity.
+
+## What's real vs. simulated
+
+- **CSV parsing, the analytics engine, fee categorization, ROI, and the
+  profit-leakage waterfall** are fully implemented and run for real on
+  whatever transactions you upload.
+- **Month-over-month history and comparison** are fully implemented,
+  persisted to localStorage, and computed for real — see the section
+  above.
+- **Two parsing paths, one engine**: the default flow parses entirely
+  client-side (`lib/csvParser.ts`'s `parseCsvFile`), keeping with Privest
+  AI's "nothing leaves your browser" promise. `app/api/upload/route.ts`
+  exposes the exact same validation logic (`parseCsvText`) server-side,
+  for cases like programmatic access or very large files where that's an
+  acceptable tradeoff — see the comment at the top of that file.
+- **AI insights** are genuinely generated by Claude via `app/api/insights`,
+  a server route that keeps your API key off the client. There's a
+  rule-based fallback (`lib/ai.ts`) so the feature still works without a
+  key, and the route itself returns gracefully when no key is configured.
+- **The Midnight privacy layer** (`lib/midnight.ts`,
+  `components/PrivacyFlow`) is a labeled UI simulation of the intended
+  confidential-compute flow. Nothing is transmitted anywhere during that
+  step — everything runs locally in the browser.
+  `contracts/portfolioAnalysis.compact` sketches the actual Compact
+  circuit this would call in production; see the comments in both files
+  for exactly what a real integration would change.
+
+## Project structure
+
+```
+app/
+  page.tsx                   landing route ("/")
+  upload/page.tsx             CSV import route ("/upload")
+  dashboard/page.tsx          privacy flow + analytics route ("/dashboard")
+  history/page.tsx            saved statements route ("/history")
+  providers.tsx                PortfolioProvider — cross-route in-memory state
+  layout.tsx                   root layout, wraps app in the provider
+  api/
+    upload/route.ts            server-side CSV parse endpoint (alternative path)
+    insights/route.ts          server-side Claude call for AI insights
+components/
+  Navbar/, Footer/, Sidebar/    shared chrome used across routes
+  Cards/                        generic Card + StatCard primitives
+  ui/                           Button, Badge, Spinner, ProgressBar
+  Landing/                      hero + value props
+  Upload/                       dropzone, schema guide, status, container
+  PrivacyFlow/                  simulated Midnight confidential-compute animation
+  Dashboard/                    KPI cards, expectation banner, transactions table, container
+  Charts/                       waterfall, fee donut, monthly flow area chart
+  FeeAnalysis/                  the flagship Profit Leakage Report
+  Insights/                     AI insight cards + panel
+  History/                      saved-statement list + row, view/delete actions
+lib/
+  csvParser.ts                  isomorphic CSV → validated Transaction[]
+  calculations.ts               the analytics engine (avg-cost accounting)
+  ai.ts                         client helper + rule-based fallback insights
+  midnight.ts                   simulated privacy-layer orchestration
+  history.ts                    localStorage persistence for saved statements
+  constants.ts                  schema, labels, colors, sample data — one source of truth
+services/
+  portfolioService.ts           the one place components call into for the
+                                whole import → privacy → analyze → save → insights flow
+utils/
+  feeCalculator.ts               fee category normalization & aggregation
+  roiCalculator.ts               ROI / net profit / percent-change math
+  formatCurrency.ts              shared money formatting
+  formatPercentage.ts            shared percentage formatting
+  formatDate.ts                  shared date formatting for history entries
+  expectationComparator.ts       exceeding/meeting/below vs. the previous snapshot
+types/
+  portfolio.ts                   shared TS interfaces used across every layer
+contracts/
+  portfolioAnalysis.compact      illustrative Midnight contract stub
+public/
+  sample-statement.csv           static sample used by the schema guide
+  favicon.svg
 ```
 
----
+## CSV format
 
-# 📸 Screenshots
+| Column | Required | Example |
+|---|---|---|
+| date | Yes | 2026-02-14 |
+| symbol | Yes | SCOM |
+| type | Yes | buy / sell |
+| quantity | Yes | 150 |
+| price | Yes | 18.40 |
+| fee | No (default 0) | 45 |
+| fee_type | No (default other) | broker / tax / exchange |
+| currency | No | KES |
 
-Coming soon...
+## Roadmap
 
----
-
-# 🎥 Demo
-
-Hackathon demo video will be added after submission.
-
----
-
-# 📚 Documentation
-
-Additional documentation will include:
-
-- Project setup
-- Midnight integration
-- AI workflow
-- Architecture decisions
-- API documentation
-- Future improvements
-
----
-
-# 🌟 Future Improvements
-
-- PDF statement support
-- Multiple brokerage integrations
-- Live stock prices
-- Tax reporting
-- Dividend analytics
-- Risk analysis
-- Portfolio optimization
-- Investment goal tracking
-- AI financial assistant
-- Multi-currency support
-
----
-
-# 🤝 Contributing
-
-Contributions, suggestions, and feedback are welcome.
-
-Feel free to fork the repository and submit a pull request.
-
----
-
-# 📄 License
-
-This project is licensed under the **MIT License**.
-
----
-
-## 👩‍💻 Author
-
-**Elsie Oscar**
-
-Software Developer | AI Enthusiast | Privacy-First Builder
-
-Built with ❤️ during the **Midnight Hackathon 2026**.
+PDF statement import, live market pricing (so "Portfolio Value" reflects
+current prices instead of average cost), multi-broker integrations, and a
+real Midnight SDK + compiled Compact contract in place of the simulated
+privacy layer.
