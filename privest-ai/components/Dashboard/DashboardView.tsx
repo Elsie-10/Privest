@@ -59,7 +59,10 @@ export default function DashboardView({
         <AiAnalysisPanel metrics={metrics} />
       </div>
 
-      <WidgetGrid transactions={transactions} />
+      <WidgetGrid 
+      transactions={transactions}
+  metrics={metrics}
+   />
       <TransactionsTable transactions={transactions} />
     </div>
   );

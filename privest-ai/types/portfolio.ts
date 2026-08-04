@@ -6,6 +6,7 @@
 export type TransactionType = "buy" | "sell";
 
 export type FeeCategory = "broker" | "tax" | "exchange" | "other";
+export type RecommendationPriority = "high" | "medium" | "low";
 
 /** A single row from an imported brokerage statement, normalized. */
 export interface Transaction {
@@ -39,6 +40,38 @@ export interface MonthlyActivity {
   sold: number;
   fees: number;
   transactionCount: number;
+  realizedGain: number;
+}
+
+export interface HoldingSnapshot {
+  symbol: string;
+  quantity: number;
+  avgCost: number;
+  marketPrice: number;
+  marketValue: number;
+  costBasis: number;
+  unrealizedPnL: number;
+  unrealizedReturnPercent: number;
+  dividendEstimate: number;
+  dividendYield: number;
+  weight: number;
+}
+
+export interface AllocationPoint {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export interface GrowthPoint {
+  month: string;
+  value: number;
+}
+
+export interface PortfolioRecommendation {
+  title: string;
+  rationale: string;
+  priority: RecommendationPriority;
 }
 
 /** The full computed analytics output for a portfolio. */
@@ -50,6 +83,16 @@ export interface PortfolioMetrics {
   totalInvested: number;
   totalSales: number;
   openValue: number; // remaining open positions, valued at average cost
+  marketValue: number;
+  costBasis: number;
+  unrealizedPnL: number;
+  realizedPnL: number;
+  totalReturnPercent: number;
+  dividendIncome: number;
+  dividendYield: number;
+  diversificationScore: number;
+  concentrationScore: number;
+  riskScore: number;
 
   grossRealizedGain: number;
   totalFees: number;
@@ -70,6 +113,10 @@ export interface PortfolioMetrics {
 
   monthly: MonthlyActivity[];
   positions: Position[];
+  holdings: HoldingSnapshot[];
+  allocations: AllocationPoint[];
+  growthSeries: GrowthPoint[];
+  recommendations: PortfolioRecommendation[];
 }
 
 /** A single AI-generated (or fallback) observation about the portfolio. */

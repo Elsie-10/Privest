@@ -10,24 +10,24 @@ export default function KpiCards({ metrics }: { metrics: PortfolioMetrics }) {
     <div id="overview" className="mb-6 grid scroll-mt-24 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatCard
         label="Net Worth"
-        value={formatCurrency(metrics.openValue, metrics.currency)}
-        sub="Estimated from cost-basis positions"
+        value={formatCurrency(metrics.marketValue, metrics.currency)}
+        sub="Current market value of open holdings"
       />
       <StatCard
-        label="Diversification Score"
-        value={formatPercentage(Math.max(0.18, 0.72 + metrics.transactionCount / 1000))}
-        sub="Spread across holdings and sectors"
+        label="Diversification"
+        value={formatPercentage(metrics.diversificationScore / 100)}
+        sub="Spread across open positions"
       />
       <StatCard
-        label="Risk Rating"
-        value={metrics.netProfit >= 0 ? "Balanced" : "Watch"}
-        sub="Current drawdown posture"
-        tone={metrics.netProfit >= 0 ? "pos" : "neg"}
+        label="Risk"
+        value={metrics.riskScore > 70 ? "Elevated" : metrics.riskScore > 50 ? "Balanced" : "Defensive"}
+        sub={`Model score ${metrics.riskScore}/100`}
+        tone={metrics.riskScore > 70 ? "neg" : "pos"}
       />
       <StatCard
         label="Dividend Yield"
-        value={formatPercentage(Math.min(0.08, Math.max(0.01, metrics.roiPercent / 100 + 0.02)))}
-        sub="Estimated annualized yield"
+        value={formatPercentage(metrics.dividendYield / 100)}
+        sub="Estimated income yield"
       />
     </div>
   );

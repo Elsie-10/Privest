@@ -16,28 +16,59 @@ export default function AiPage() {
           </p>
         </div>
         <div className="space-y-4">
-          <AiAnalysisPanel metrics={{
-            currency: "KES",
-            transactionCount: 12,
-            monthsOfActivity: 6,
-            totalInvested: 125000,
-            totalSales: 0,
-            openValue: 142000,
-            grossRealizedGain: 18000,
-            totalFees: 1450,
-            netProfit: 16550,
-            roiPercent: 13.24,
-            leakagePercent: 8.1,
-            feesByCategory: { broker: 900, tax: 320, exchange: 180, other: 50 },
-            topPerformer: "SCOM",
-            topPerformerSharePercent: 28,
-            mostConcentratedHolding: "EQTY",
-            concentrationSharePercent: 31,
-            tradeFrequencyTrendPercent: 4,
-            feeTrend: "down",
-            monthly: [],
-            positions: [],
-          }} />
+          <AiAnalysisPanel
+  metrics={{
+    currency: "KES",
+    transactionCount: 12,
+    monthsOfActivity: 6,
+
+    totalInvested: 125000,
+    totalSales: 0,
+    openValue: 142000,
+    marketValue: 142000,
+    costBasis: 125000,
+
+    unrealizedPnL: 17000,
+    realizedPnL: 1000,
+    totalReturnPercent: 14.4,
+
+    dividendIncome: 6200,
+    dividendYield: 4.96,
+
+    diversificationScore: 78,
+    concentrationScore: 31,
+    riskScore: 42,
+
+    grossRealizedGain: 18000,
+    totalFees: 1450,
+    netProfit: 16550,
+    roiPercent: 13.24,
+    leakagePercent: 8.1,
+
+    feesByCategory: {
+      broker: 900,
+      tax: 320,
+      exchange: 180,
+      other: 50,
+    },
+
+    topPerformer: "SCOM",
+    topPerformerSharePercent: 28,
+
+    mostConcentratedHolding: "EQTY",
+    concentrationSharePercent: 31,
+
+    tradeFrequencyTrendPercent: 4,
+    feeTrend: "down",
+
+    monthly: [],
+    positions: [],
+    holdings: [],
+    allocations: [],
+    growthSeries: [],
+    recommendations: [],
+  }}
+/>
           <AiChatPanel />
         </div>
       </main>

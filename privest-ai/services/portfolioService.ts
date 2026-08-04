@@ -4,10 +4,11 @@
 // through here, which keeps the UI layer decoupled from how parsing,
 // privacy simulation, analytics, and AI insights are actually implemented.
 
-import { parseCsvFile, buildSampleCsv } from "@/lib/csvParser";
+import { buildSampleCsv } from "@/lib/csvParser";
 import { computePortfolioMetrics } from "@/lib/calculations";
 import { simulatePrivacyLayer } from "@/lib/midnight";
 import { fetchAiInsights } from "@/lib/ai";
+import { ingestStatement } from "@/lib/importPipeline";
 import * as history from "@/lib/history";
 import { compareToExpectation } from "@/utils/expectationComparator";
 import {
@@ -21,7 +22,7 @@ import {
 export const portfolioService = {
   /** Step 1 (default): parse and validate an uploaded CSV file entirely client-side. */
   async importStatement(file: File): Promise<ParsedStatement> {
-    return parseCsvFile(file);
+    return ingestStatement(file);
   },
 
   /**

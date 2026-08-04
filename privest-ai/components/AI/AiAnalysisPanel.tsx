@@ -2,41 +2,33 @@
 
 import { PortfolioMetrics } from "@/types/portfolio";
 import Card from "@/components/Cards/Card";
-
-const healthScore = 88;
-const strengths = [
-  "Diversified across defensive sectors and cash-rich positions",
-  "Fee leakage is controlled and within a healthy range",
-  "Portfolio activity suggests disciplined rebalancing behavior",
-];
-const risks = [
-  "Concentration in a few large holdings could pressure downside",
-  "Dividend coverage remains modest compared with the current risk profile",
-  "A few recent trades have elevated transaction churn",
-];
-const rebalancing = [
-  "Trim the largest holding by 5–8% if volatility rises",
-  "Increase cash buffer to preserve flexibility for future entry points",
-  "Revisit tax-aware sell decisions before the next quarter renews",
-];
-const recommendations = [
-  "Maintain a tactical waitlist for quality names with stronger yield",
-  "Review tariff and rate sensitivity before adding new risk",
-  "Use the AI chat to stress-test scenarios and trade ideas",
-];
+import { formatCurrency } from "@/utils/formatCurrency";
+import { formatPercentage } from "@/utils/formatPercentage";
 
 export default function AiAnalysisPanel({ metrics }: { metrics: PortfolioMetrics }) {
+  const healthScore = Math.max(40, Math.min(95, 70 + metrics.diversificationScore / 10 - metrics.riskScore / 20));
+  const strengths = [
+    `Current market value is ${formatCurrency(metrics.marketValue, metrics.currency)} across ${metrics.holdings.length} open holdings.`,
+    `Diversification is ${formatPercentage(metrics.diversificationScore / 100)} and concentration remains manageable.`,
+    `Net profitability is ${formatCurrency(metrics.netProfit, metrics.currency)} after fees.`,
+  ];
+  const risks = [
+    metrics.concentrationSharePercent ? `The largest position represents ${metrics.concentrationSharePercent.toFixed(1)}% of invested capital.` : "Concentration is not yet extreme.",
+    `Risk score is ${metrics.riskScore}/100 based on concentration and income assumptions.`,
+    `Fee leakage is ${metrics.leakagePercent?.toFixed(1) ?? "n/a"}% of realized gain.`,
+  ];
+
   return (
-    <Card title="AI analysis" subtitle="A compact operating view for next actions">
+    <Card title="AI analysis" subtitle="Deterministic diagnosis from computed portfolio metrics">
       <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-500/10 p-5">
           <div className="text-[11px] uppercase tracking-[0.24em] text-emerald-400">Health score</div>
-          <div className="mt-3 text-4xl font-semibold text-zinc-100">{healthScore}/100</div>
+          <div className="mt-3 text-4xl font-semibold text-zinc-100">{Math.round(healthScore)}/100</div>
           <p className="mt-3 text-sm text-zinc-300">
-            Portfolio context indicates a resilient setup with a manageable fee drag and stable cash flow, though concentration risk remains the main watchpoint.
+            These signals come from the portfolio engine only: holdings, weights, fees, and realized performance. The AI layer explains them without inventing new figures.
           </p>
           <div className="mt-5 h-2 rounded-full bg-white/10">
-            <div className="h-2 w-[88%] rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500" />
+            <div className="h-2 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500" style={{ width: `${healthScore}%` }} />
           </div>
         </div>
 
@@ -44,8 +36,7 @@ export default function AiAnalysisPanel({ metrics }: { metrics: PortfolioMetrics
           {[
             { title: "Strengths", items: strengths },
             { title: "Risks", items: risks },
-            { title: "Rebalancing", items: rebalancing },
-            { title: "Recommendations", items: recommendations },
+            { title: "Recommendations", items: metrics.recommendations.map((item) => `${item.title}: ${item.rationale}`) },
           ].map((section) => (
             <div key={section.title} className="rounded-[20px] border border-white/10 bg-white/5 p-4">
               <h4 className="text-sm font-semibold text-zinc-100">{section.title}</h4>

@@ -16,15 +16,6 @@ export default function UploadView() {
   const [ready, setReady] = useState(false);
 
   async function handleFile(file: File) {
-    if (!file.name.toLowerCase().endsWith(".csv")) {
-      setState({
-        kind: "error",
-        message: "Only CSV files are supported in this build. Please choose a .csv file.",
-      });
-      setReady(false);
-      return;
-    }
-
     setState({ kind: "loading", progress: 15 });
     // Small staged progress purely for perceived responsiveness on fast parses.
     const tick = setInterval(() => {
