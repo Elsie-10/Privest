@@ -16,29 +16,33 @@ export default function Navbar({
   const onHistoryPage = pathname === "/history";
 
   return (
-    <nav className="flex items-center justify-between px-10 py-5 bg-white border-b border-grey-light sticky top-0 z-20">
-      <div className="flex items-center gap-6">
-        <Link href={brandHref} className="flex items-center gap-2.5 font-display font-bold text-lg">
-          <span className="w-[30px] h-[30px] rounded-lg bg-gradient-to-br from-navy to-teal flex items-center justify-center text-white text-sm">
-            P
-          </span>
-          Privest AI
-        </Link>
-        {!onHistoryPage && (
-          <Link
-            href="/history"
-            className="text-[13.5px] font-semibold text-grey hover:text-navy transition-colors"
-          >
-            History
+    <nav className="sticky top-0 z-30 border-b border-white/10 bg-black/70 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <Link href={brandHref} className="flex items-center gap-2.5 font-semibold text-lg text-zinc-100">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/15 text-sm font-semibold text-emerald-400 ring-1 ring-emerald-400/20">
+              P
+            </span>
+            <span className="hidden sm:inline">Privest AI</span>
           </Link>
-        )}
-      </div>
-      <div className="flex items-center gap-2.5">
-        {right ?? (
-          <Badge tone="teal" dot>
-            Privacy-first, by design
-          </Badge>
-        )}
+          {!onHistoryPage && (
+            <>
+              <Link href="/ai" className="text-[13px] font-medium text-zinc-400 transition-colors hover:text-zinc-100">
+                AI
+              </Link>
+              <Link href="/history" className="text-[13px] font-medium text-zinc-400 transition-colors hover:text-zinc-100">
+                History
+              </Link>
+            </>
+          )}
+        </div>
+        <div className="flex items-center gap-2.5">
+          {right ?? (
+            <Badge tone="teal" dot>
+              Privacy-first, by design
+            </Badge>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -4,7 +4,7 @@ import UploadView from "@/components/Upload/UploadView";
 
 export default function UploadPage() {
   return (
-    <div>
+    <div className="min-h-screen bg-transparent">
       <Navbar />
       <UploadView />
       <Footer />

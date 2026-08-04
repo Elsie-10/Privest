@@ -41,7 +41,7 @@ export default function DashboardPage() {
     return <PrivacyFlow onComplete={handleAnalyzeAndSave} />;
   }
   return (
-    <div>
+    <div className="min-h-screen bg-transparent">
       <Navbar
         right={
           <>
@@ -54,9 +54,9 @@ export default function DashboardPage() {
           </>
         }
       />
-      <div className="max-w-[1180px] mx-auto px-10 pt-9 pb-24 flex gap-8">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-24 pt-8 sm:px-6 lg:flex-row lg:px-8">
         <Sidebar />
-        <main className="flex-1 min-w-0">
+        <main className="min-w-0 flex-1">
           <DashboardView
             metrics={metrics}
             transactions={statement.transactions}
@@ -64,7 +64,7 @@ export default function DashboardPage() {
           />
         </main>
       </div>
-      <Footer note="Privest AI — Midnight Hackathon 2026 · Demo build · Analysis runs locally in your browser" />
+      <Footer note="Privest AI — local-first analysis, modern portfolio intelligence" />
     </div>
   );
 }  

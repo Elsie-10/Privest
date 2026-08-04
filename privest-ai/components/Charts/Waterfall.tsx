@@ -8,9 +8,9 @@ export default function Waterfall({ metrics }: { metrics: PortfolioMetrics }) {
   const maxVal = Math.max(Math.abs(gross), Math.abs(net), fees, 1);
 
   const bars = [
-    { label: "Gross Profit", value: gross, color: gross >= 0 ? "#0E9D67" : "#D6484A" },
-    { label: "Fees Lost", value: -fees, color: "#C6862E" },
-    { label: "Net Take-Home", value: net, color: net >= 0 ? "#0A1F3D" : "#D6484A" },
+    { label: "Gross Profit", value: gross, color: gross >= 0 ? "#10b981" : "#f43f5e" },
+    { label: "Fees Lost", value: -fees, color: "#f59e0b" },
+    { label: "Net Take-Home", value: net, color: net >= 0 ? "#34d399" : "#fb7185" },
   ];
 
   return (
@@ -26,7 +26,7 @@ export default function Waterfall({ metrics }: { metrics: PortfolioMetrics }) {
               className="w-full rounded-t-lg transition-[height] duration-700"
               style={{ height, background: b.color }}
             />
-            <div className="text-[11px] text-grey mt-2 text-center font-medium">{b.label}</div>
+            <div className="mt-2 text-center text-[11px] font-medium text-zinc-400">{b.label}</div>
           </div>
         );
       })}

@@ -7,6 +7,8 @@ import LeakageReport from "@/components/FeeAnalysis/LeakageReport";
 import FlowLineChart from "@/components/Charts/FlowLineChat";
 import InsightsPanel from "@/components/Insights/InsightsPanel";
 import Card from "@/components/Cards/Card";
+import WidgetGrid from "@/components/Dashboard/WidgetGrid";
+import AiAnalysisPanel from "@/components/AI/AiAnalysisPanel";
 
 type DashboardViewProps = {
   metrics: PortfolioMetrics;
@@ -21,14 +23,19 @@ export default function DashboardView({
 }: DashboardViewProps) {
   return (
     <div>
-      <div className="mb-6">
-        <h2 className="text-2xl font-display font-semibold">
-          Portfolio dashboard
-        </h2>
-        <p className="text-[13.5px] text-grey mt-1">
-          {metrics.transactionCount} transactions analyzed ·{" "}
-          {metrics.monthsOfActivity} month(s) of activity
-        </p>
+      <div className="mb-6 rounded-[24px] border border-white/10 bg-white/5 p-5 sm:p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-400">AI portfolio operating system</p>
+            <h2 className="mt-2 text-2xl font-semibold text-zinc-100">Portfolio intelligence dashboard</h2>
+            <p className="mt-1 text-sm text-zinc-400">
+              {metrics.transactionCount} transactions analyzed · {metrics.monthsOfActivity} month(s) of activity
+            </p>
+          </div>
+          <div className="rounded-full border border-white/10 bg-black/30 px-3 py-1.5 text-[12px] text-zinc-400">
+            Confidential compute · local-first
+          </div>
+        </div>
       </div>
 
       <KpiCards metrics={metrics} />
@@ -48,6 +55,11 @@ export default function DashboardView({
         <InsightsPanel metrics={metrics} />
       </div>
 
+      <div className="mb-4 scroll-mt-24">
+        <AiAnalysisPanel metrics={metrics} />
+      </div>
+
+      <WidgetGrid transactions={transactions} />
       <TransactionsTable transactions={transactions} />
     </div>
   );

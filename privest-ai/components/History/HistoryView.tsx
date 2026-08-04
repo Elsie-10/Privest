@@ -48,18 +48,19 @@ export default function HistoryView() {
   const newestFirst = [...chronological].reverse();
 
   return (
-    <div className="max-w-[860px] mx-auto px-10 pt-14 pb-24">
-      <div className="flex items-end justify-between flex-wrap gap-3 mb-8">
+    <div className="mx-auto max-w-6xl px-4 pb-24 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-3 rounded-[24px] border border-white/10 bg-white/5 p-6">
         <div>
-          <h2 className="text-3xl font-display font-semibold mb-2">Statement history</h2>
-          <p className="text-grey text-[15px]">
+          <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-400">Saved portfolio snapshots</p>
+          <h2 className="mt-2 text-3xl font-semibold text-zinc-100">Statement history</h2>
+          <p className="mt-2 text-sm text-zinc-400">
             Saved to this browser only — nothing here has been sent anywhere.
           </p>
         </div>
         {snapshots.length > 0 && (
           <button
             onClick={handleClearAll}
-            className="text-[13px] font-semibold text-red border border-red-soft px-3.5 py-2 rounded-lg hover:bg-red-soft transition-colors"
+            className="rounded-xl border border-rose-400/20 bg-rose-500/10 px-3.5 py-2 text-[13px] font-semibold text-rose-400 transition-colors hover:bg-rose-500/20"
           >
             Clear all history
           </button>
@@ -67,16 +68,15 @@ export default function HistoryView() {
       </div>
 
       {!loaded ? null : snapshots.length === 0 ? (
-        <div className="bg-white rounded-card p-10 shadow-card text-center">
-          <p className="text-navy-2 font-medium mb-2">No saved statements yet</p>
-          <p className="text-grey text-[13.5px] mb-6">
+        <div className="rounded-[24px] border border-white/10 bg-white/5 p-10 text-center">
+          <p className="mb-2 font-medium text-zinc-100">No saved statements yet</p>
+          <p className="mb-6 text-[13.5px] text-zinc-400">
             Every statement you analyze is saved here automatically, so next month you can see
             whether you&apos;re exceeding, meeting, or below where you were.
           </p>
           <button
             onClick={() => router.push("/upload")}
-            className="bg-navy text-white px-6 py-3 rounded-xl text-[13.5px] font-semibold"
-            style={{ backgroundColor: "#0A1F3D", color: "#FFFFFF" }}
+            className="rounded-xl bg-emerald-500 px-6 py-3 text-[13.5px] font-semibold text-white transition hover:bg-emerald-400"
           >
             Analyze your first statement →
           </button>

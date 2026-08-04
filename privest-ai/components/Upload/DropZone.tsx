@@ -2,14 +2,16 @@
 
 import { useRef, useState } from "react";
 
+const brokers = ["Sterling Capital", "AIB-AXYS", "Dyer & Blair", "SIB", "Kingdom", "Genghis"];
+
 export default function Dropzone({ onFile }: { onFile: (file: File) => void }) {
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div
-      className={`bg-white border-2 border-dashed rounded-[18px] p-14 text-center transition-colors ${
-        dragOver ? "border-teal bg-[#F3FBFB]" : "border-grey-light"
+      className={`rounded-[24px] border p-6 text-center transition-all sm:p-8 ${
+        dragOver ? "border-emerald-400/40 bg-emerald-500/10" : "border-white/10 bg-white/5"
       }`}
       onDragOver={(e) => {
         e.preventDefault();
@@ -26,14 +28,13 @@ export default function Dropzone({ onFile }: { onFile: (file: File) => void }) {
         if (file) onFile(file);
       }}
     >
-      <div className="w-14 h-14 rounded-2xl bg-emerald-soft text-emerald flex items-center justify-center mx-auto mb-4 text-2xl">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-400/20 bg-emerald-500/10 text-2xl text-emerald-400">
         ↑
       </div>
-      <h3 className="text-[17px] font-semibold mb-1.5">Drag & drop your CSV here</h3>
-      <p className="text-grey text-[13.5px] mb-5">or choose a file from your device</p>
+      <h3 className="mt-4 text-[17px] font-semibold text-zinc-100">Import broker contract notes</h3>
+      <p className="mt-2 text-sm text-zinc-400">Drag and drop PDF, image, or CSV files to extract holdings, fees, and portfolio context.</p>
       <button
-        className="bg-navy text-white px-5 py-2.5 rounded-lg text-[13.5px] font-semibold"
-        style={{ backgroundColor: "#0A1F3D", color: "#FFFFFF" }}
+        className="mt-6 inline-flex items-center justify-center rounded-xl bg-emerald-500 px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-emerald-400"
         onClick={() => inputRef.current?.click()}
       >
         Browse files
@@ -41,15 +42,19 @@ export default function Dropzone({ onFile }: { onFile: (file: File) => void }) {
       <input
         ref={inputRef}
         type="file"
-        accept=".csv"
+        accept=".csv,.pdf,image/*"
         className="hidden"
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) onFile(file);
         }}
       />
-      <div className="mt-5 text-xs text-grey">
-        Supported now: <b className="text-navy-2">CSV</b> &nbsp;·&nbsp; Coming soon: PDF statements
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+        {brokers.map((broker) => (
+          <span key={broker} className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-[11px] text-zinc-400">
+            {broker}
+          </span>
+        ))}
       </div>
     </div>
   );

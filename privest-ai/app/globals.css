@@ -1,63 +1,64 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
 @theme {
-  /* Colors */
-  --color-bg: #F5F7FA;
-  --color-surface: #FFFFFF;
+  --color-bg: #050505;
+  --color-surface: #0a0a0a;
+  --color-surface-2: #111111;
+  --color-ink: #f5f5f5;
+  --color-muted: #a1a1aa;
+  --color-accent: #10b981;
+  --color-danger: #f43f5e;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-panel: rgba(255, 255, 255, 0.04);
 
-  --color-navy: #0A1F3D;
-  --color-navy-2: #16305A;
-
-  --color-emerald: #0E9D67;
-  --color-emerald-soft: #E5F6EE;
-
-  --color-red: #D6484A;
-  --color-red-soft: #FBEAEA;
-
-  --color-grey: #6B7280;
-  --color-grey-light: #E7EAEF;
-
-  --color-teal: #0E8A8A;
-
-  --color-gold: #C6862E;
-  --color-gold-soft: #FBF0DF;
-
-  /* Fonts */
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
-  /* Radius */
-  --radius-card: 14px;
-
-  /* Shadow */
-  --shadow-card: 0 1px 2px rgba(10, 31, 61, 0.04),
-    0 8px 24px rgba(10, 31, 61, 0.06);
+  --radius-card: 16px;
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 18px 45px rgba(0, 0, 0, 0.28);
 }
 
 html,
 body {
-  background: var(--color-bg);
-  color: var(--color-navy);
+  min-height: 100%;
+  background: #050505;
+  color: #f5f5f5;
   font-family: var(--font-body);
 }
 
+body {
+  background-image: radial-gradient(circle at top left, rgba(16, 185, 129, 0.16), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.12), transparent 24%);
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.35);
+  color: white;
+}
+
 .num {
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
-/* Pulse */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(20px);
+}
 
 @keyframes privest-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(14, 138, 138, 0.25);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3);
   }
 
   50% {
-    box-shadow: 0 0 0 14px rgba(14, 138, 138, 0);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
   }
 }
 
@@ -65,12 +66,10 @@ body {
   animation: privest-pulse 1.8s ease-in-out infinite;
 }
 
-/* Fade */
-
 @keyframes privest-spin-fade {
   0%,
   100% {
-    opacity: 0.3;
+    opacity: 0.35;
   }
 
   50% {
@@ -81,8 +80,6 @@ body {
 .animate-privest-step {
   animation: privest-spin-fade 1s ease-in-out infinite;
 }
-
-/* Spinner */
 
 @keyframes privest-spin {
   to {

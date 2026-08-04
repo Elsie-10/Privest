@@ -15,12 +15,12 @@ export default function UploadStatus({ state }: { state: UploadState }) {
     <div className="mt-4">
       {state.kind === "loading" && <ProgressBar percent={state.progress} />}
       {state.kind === "success" && (
-        <div className="flex items-center gap-2.5 bg-emerald-soft text-emerald rounded-xl px-4 py-3.5 text-[13.5px] font-semibold">
+        <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3.5 text-[13.5px] font-semibold text-emerald-400">
           ✓ {state.message}
         </div>
       )}
       {state.kind === "error" && (
-        <div className="flex items-center gap-2.5 bg-red-soft text-red rounded-xl px-4 py-3.5 text-[13.5px] font-semibold">
+        <div className="flex items-center gap-2.5 rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3.5 text-[13.5px] font-semibold text-rose-400">
           ⚠ {state.message}
         </div>
       )}

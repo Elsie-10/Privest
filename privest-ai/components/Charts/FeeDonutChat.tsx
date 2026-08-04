@@ -23,17 +23,18 @@ export default function FeeDonutChart({ metrics }: { metrics: PortfolioMetrics }
             ))}
           </Pie>
           <Tooltip
-  formatter={(value) => {
-    const amount = typeof value === "number" ? value : Number(value);
-
-    return [`${metrics.currency} ${amount.toLocaleString()}`, "Amount"];
-  }}
-  contentStyle={{
-    borderRadius: 10,
-    border: "1px solid #E7EAEF",
-    fontSize: 12.5,
-  }}
-/>
+            formatter={(value) => {
+              const amount = typeof value === "number" ? value : Number(value);
+              return [`${metrics.currency} ${amount.toLocaleString()}`, "Amount"];
+            }}
+            contentStyle={{
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(5,5,5,0.95)",
+              fontSize: 12.5,
+              color: "#f5f5f5",
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>

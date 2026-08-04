@@ -2,8 +2,8 @@
 
 export default function Footer({ note }: { note?: string }) {
   return (
-    <div className="text-center py-10 text-grey text-xs">
-      {note ?? "Privest AI — Midnight Hackathon 2026 · Demo build"}
-    </div>
+    <footer className="border-t border-white/10 py-8 text-center text-[12px] text-zinc-500">
+      {note ?? "Privest AI — AI-powered investment intelligence for modern portfolios"}
+    </footer>
   );
 }

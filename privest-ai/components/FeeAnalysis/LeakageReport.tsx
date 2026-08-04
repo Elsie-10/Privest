@@ -40,7 +40,7 @@ export default function LeakageReport({ metrics }: { metrics: PortfolioMetrics }
           <span>{formatCurrency(metrics.totalFees, metrics.currency)}</span>
         </div>
 
-        <div className="mt-4 bg-gold-soft text-[#8A5A17] text-[12.5px] font-semibold px-3.5 py-3 rounded-lg">
+        <div className="mt-4 rounded-2xl border border-amber-400/20 bg-amber-500/10 px-3.5 py-3 text-[12.5px] font-semibold text-amber-300">
           {metrics.leakagePercent !== null
             ? `Fees reduced your gross gains by ${metrics.leakagePercent.toFixed(1)}%.`
             : `Fees totaled ${formatCurrency(

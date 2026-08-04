@@ -25,7 +25,7 @@ export default function TransactionsTable({ transactions }: { transactions: Tran
               {["Date", "Symbol", "Type", "Qty", "Price", "Fee"].map((h) => (
                 <th
                   key={h}
-                  className="text-left text-grey font-semibold text-[11.5px] uppercase tracking-wide py-2.5 px-3 border-b border-grey-light"
+                  className="border-b border-white/10 px-3 py-2.5 text-left text-[11.5px] font-semibold uppercase tracking-[0.24em] text-zinc-500"
                 >
                   {h}
                 </th>
@@ -35,14 +35,14 @@ export default function TransactionsTable({ transactions }: { transactions: Tran
           <tbody>
             {recent.map((r, i) => (
               <tr key={i}>
-                <td className="py-2.5 px-3 border-b border-[#F1F2F5] text-navy-2">{r.date}</td>
-                <td className="py-2.5 px-3 border-b border-[#F1F2F5] text-navy-2">{r.symbol}</td>
-                <td className="py-2.5 px-3 border-b border-[#F1F2F5]">
+                <td className="border-b border-white/10 px-3 py-2.5 text-zinc-300">{r.date}</td>
+                <td className="border-b border-white/10 px-3 py-2.5 text-zinc-100">{r.symbol}</td>
+                <td className="border-b border-white/10 px-3 py-2.5">
                   <Badge tone={r.type === "sell" ? "red" : "emerald"}>{r.type.toUpperCase()}</Badge>
                 </td>
-                <td className="py-2.5 px-3 border-b border-[#F1F2F5] text-navy-2">{r.quantity}</td>
-                <td className="py-2.5 px-3 border-b border-[#F1F2F5] text-navy-2">{r.price}</td>
-                <td className="py-2.5 px-3 border-b border-[#F1F2F5] text-navy-2">{r.fee}</td>
+                <td className="border-b border-white/10 px-3 py-2.5 text-zinc-300">{r.quantity}</td>
+                <td className="border-b border-white/10 px-3 py-2.5 text-zinc-300">{r.price}</td>
+                <td className="border-b border-white/10 px-3 py-2.5 text-zinc-300">{r.fee}</td>
               </tr>
             ))}
           </tbody>

@@ -3,9 +3,9 @@
 type Tone = "pos" | "neg" | "neutral";
 
 const toneClass: Record<Tone, string> = {
-  pos: "text-emerald",
-  neg: "text-red",
-  neutral: "text-navy",
+  pos: "text-emerald-400",
+  neg: "text-rose-400",
+  neutral: "text-zinc-100",
 };
 
 export default function StatCard({
@@ -20,12 +20,12 @@ export default function StatCard({
   tone?: Tone;
 }) {
   return (
-    <div className="bg-white rounded-card p-6 shadow-card">
-      <div className="text-[12.5px] text-grey font-semibold uppercase tracking-wide mb-2.5">
+    <div className="glass-panel rounded-[var(--radius-card)] p-5 sm:p-6">
+      <div className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 font-semibold mb-2.5">
         {label}
       </div>
-      <div className={`num text-[26px] font-semibold ${toneClass[tone]}`}>{value}</div>
-      {sub && <div className="text-xs text-grey mt-1.5">{sub}</div>}
+      <div className={`num text-[22px] sm:text-[26px] font-semibold ${toneClass[tone]}`}>{value}</div>
+      {sub && <div className="text-xs text-zinc-500 mt-1.5">{sub}</div>}
     </div>
   );
 }

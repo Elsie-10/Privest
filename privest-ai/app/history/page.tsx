@@ -4,7 +4,7 @@ import HistoryView from "@/components/History/HistoryView";
 
 export default function HistoryPage() {
   return (
-    <div>
+    <div className="min-h-screen bg-transparent">
       <Navbar />
       <HistoryView />
       <Footer />
