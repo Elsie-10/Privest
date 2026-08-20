@@ -1,7 +1,7 @@
 "use client";
 
 import { PortfolioMetrics } from "@/types/portfolio";
-import { FEE_CATEGORY_COLORS, FEE_CATEGORY_LABELS, FEE_CATEGORY_ORDER } from "@/lib/constants";
+import { FEE_CATEGORY_COLORS, FEE_CATEGORY_LABELS, FEE_CATEGORY_ORDER } from "@/domains/shared";
 import { formatCurrency } from "@/utils/formatCurrency";
 import Waterfall from "@/components/Charts/Waterfall";
 import FeeDonutChart from "@/components/Charts/FeeDonutChat";

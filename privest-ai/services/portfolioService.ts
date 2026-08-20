@@ -4,12 +4,11 @@
 // through here, which keeps the UI layer decoupled from how parsing,
 // privacy simulation, analytics, and AI insights are actually implemented.
 
-import { buildSampleCsv } from "@/lib/csvParser";
-import { computePortfolioMetrics } from "@/lib/calculations";
-import { simulatePrivacyLayer } from "@/lib/midnight";
-import { fetchAiInsights } from "@/lib/ai";
-import { ingestStatement } from "@/lib/importPipeline";
-import * as history from "@/lib/history";
+import { fetchAiInsights } from "@/domains/ai";
+import * as history from "@/domains/history";
+import { buildSampleCsv, ingestStatement } from "@/domains/ingestion";
+import { computePortfolioMetrics } from "@/domains/portfolio-engine";
+import { simulatePrivacyLayer } from "@/domains/privacy";
 import { compareToExpectation } from "@/utils/expectationComparator";
 import {
   ExpectationComparison,

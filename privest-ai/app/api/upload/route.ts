@@ -15,7 +15,7 @@
 // transactions, same as the default flow.
 
 import { NextRequest, NextResponse } from "next/server";
-import { parseCsvText } from "@/lib/csvParser";
+import { parseCsvText } from "@/domains/ingestion";
 
 export async function POST(req: NextRequest) {
   const contentType = req.headers.get("content-type") || "";

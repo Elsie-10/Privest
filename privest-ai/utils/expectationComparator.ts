@@ -4,7 +4,7 @@
 // — no user-defined targets involved, per how this feature was scoped.
 
 import { ExpectationComparison, ExpectationStatus, PortfolioMetrics } from "@/types/portfolio";
-import { EXPECTATION_BAND_PERCENT } from "@/lib/constants";
+import { EXPECTATION_BAND_PERCENT } from "@/domains/shared";
 
 export function compareToExpectation(
   current: PortfolioMetrics,

@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { PortfolioMetrics } from "@/types/portfolio";
-import { ANTHROPIC_MODEL } from "@/lib/constants";
+import { ANTHROPIC_MODEL } from "@/domains/shared";
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.ANTHROPIC_API_KEY;

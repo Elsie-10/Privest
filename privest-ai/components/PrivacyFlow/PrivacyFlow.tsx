@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { portfolioService } from "@/services/portfolioService";
-import { PRIVACY_STEPS } from "@/lib/midnight";
+import { PRIVACY_STEPS } from "@/domains/privacy";
 import { PrivacyStepStatus } from "@/types/portfolio";
 
 export default function PrivacyFlow({ onComplete }: { onComplete: () => void }) {

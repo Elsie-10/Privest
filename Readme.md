@@ -114,6 +114,15 @@ lib/
   midnight.ts                   simulated privacy-layer orchestration
   history.ts                    localStorage persistence for saved statements
   constants.ts                  schema, labels, colors, sample data — one source of truth
+domains/
+  ingestion/                    statement import and parse entry points
+  portfolio-engine/             deterministic portfolio calculations entry point
+  risk/                         deterministic recommendation rules entry point
+  privacy/                      privacy-layer flow entry point
+  history/                      snapshot storage entry point
+  ai/                           AI insight boundary entry point
+  growth/                       deterministic growth simulation utility
+  shared/                       shared constants entry point
 services/
   portfolioService.ts           the one place components call into for the
                                 whole import → privacy → analyze → save → insights flow

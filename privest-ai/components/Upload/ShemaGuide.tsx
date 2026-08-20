@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CSV_SCHEMA_GUIDE } from "@/lib/constants";
+import { CSV_SCHEMA_GUIDE } from "@/domains/shared";
 
 export default function SchemaGuide() {
   const [open, setOpen] = useState(false);

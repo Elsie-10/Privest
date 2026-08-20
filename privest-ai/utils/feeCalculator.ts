@@ -10,7 +10,7 @@ export {
   FEE_CATEGORY_LABELS,
   FEE_CATEGORY_COLORS,
   FEE_CATEGORY_ORDER,
-} from "@/lib/constants";
+} from "@/domains/shared";
 
 /** Normalizes a free-text fee_type CSV value into one of our four buckets. */
 export function normalizeFeeCategory(raw: string | undefined | null): FeeCategory {
