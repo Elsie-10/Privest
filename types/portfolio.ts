@@ -1,0 +1,158 @@
+// types/portfolio.ts
+// Shared data contracts passed between lib/, services/, and components/.
+// Keeping these in one place means every layer of the app agrees on the
+// exact shape of a transaction, a computed metric, or an insight.
+
+export type TransactionType = "buy" | "sell";
+
+export type FeeCategory = "broker" | "tax" | "exchange" | "other";
+export type RecommendationPriority = "high" | "medium" | "low";
+
+/** A single row from an imported brokerage statement, normalized. */
+export interface Transaction {
+  date: string; // ISO-ish date string, e.g. "2026-02-14"
+  symbol: string;
+  type: TransactionType;
+  quantity: number;
+  price: number;
+  fee: number;
+  feeCategory: FeeCategory;
+  currency: string;
+}
+
+/** Result of parsing a raw CSV file. */
+export interface ParsedStatement {
+  transactions: Transaction[];
+  rowCount: number;
+  errors: string[];
+}
+
+/** Running cost-basis state for a single holding. */
+export interface Position {
+  symbol: string;
+  quantity: number;
+  avgCost: number;
+}
+
+export interface MonthlyActivity {
+  month: string; // "YYYY-MM"
+  invested: number;
+  sold: number;
+  fees: number;
+  transactionCount: number;
+  realizedGain: number;
+}
+
+export interface HoldingSnapshot {
+  symbol: string;
+  quantity: number;
+  avgCost: number;
+  marketPrice: number;
+  marketValue: number;
+  costBasis: number;
+  unrealizedPnL: number;
+  unrealizedReturnPercent: number;
+  dividendEstimate: number;
+  dividendYield: number;
+  weight: number;
+}
+
+export interface AllocationPoint {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export interface GrowthPoint {
+  month: string;
+  value: number;
+}
+
+export interface PortfolioRecommendation {
+  title: string;
+  rationale: string;
+  priority: RecommendationPriority;
+}
+
+/** The full computed analytics output for a portfolio. */
+export interface PortfolioMetrics {
+  currency: string;
+  transactionCount: number;
+  monthsOfActivity: number;
+
+  totalInvested: number;
+  totalSales: number;
+  openValue: number; // remaining open positions, valued at average cost
+  marketValue: number;
+  costBasis: number;
+  unrealizedPnL: number;
+  realizedPnL: number;
+  totalReturnPercent: number;
+  dividendIncome: number;
+  dividendYield: number;
+  diversificationScore: number;
+  concentrationScore: number;
+  riskScore: number;
+
+  grossRealizedGain: number;
+  totalFees: number;
+  netProfit: number;
+  roiPercent: number;
+  leakagePercent: number | null;
+
+  feesByCategory: Record<FeeCategory, number>;
+
+  topPerformer: string | null;
+  topPerformerSharePercent: number | null;
+
+  mostConcentratedHolding: string | null;
+  concentrationSharePercent: number | null;
+
+  tradeFrequencyTrendPercent: number | null;
+  feeTrend: "up" | "down" | "flat" | null;
+
+  monthly: MonthlyActivity[];
+  positions: Position[];
+  holdings: HoldingSnapshot[];
+  allocations: AllocationPoint[];
+  growthSeries: GrowthPoint[];
+  recommendations: PortfolioRecommendation[];
+}
+
+/** A single AI-generated (or fallback) observation about the portfolio. */
+export interface Insight {
+  tag: string;
+  text: string;
+}
+
+/** Status of each step in the simulated Midnight confidential-compute flow. */
+export type PrivacyStepStatus = "pending" | "active" | "done";
+
+export interface PrivacyStep {
+  id: number;
+  label: string;
+  status: PrivacyStepStatus;
+}
+
+/**
+ * A saved analysis, persisted to the browser's localStorage (see
+ * lib/history.ts). Never sent anywhere — this is what makes month-over-month
+ * tracking possible without user accounts.
+ */
+export interface StatementSnapshot {
+  id: string;
+  savedAt: string; // ISO timestamp of when this snapshot was saved
+  periodLabel: string; // most recent "YYYY-MM" with activity in this statement
+  statement: ParsedStatement;
+  metrics: PortfolioMetrics;
+}
+
+/** Result of comparing one snapshot's metrics against the prior one. */
+export type ExpectationStatus = "exceeding" | "meeting" | "below" | "first";
+
+export interface ExpectationComparison {
+  status: ExpectationStatus;
+  netProfitDelta: number;
+  netProfitDeltaPercent: number | null;
+  roiPointDelta: number;
+}
