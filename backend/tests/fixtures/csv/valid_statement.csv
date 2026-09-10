@@ -1,0 +1,3 @@
+date,symbol,type,quantity,price,fee,fee_type,currency
+2026-01-01,AAA,buy,100,10,10,broker,KES
+2026-02-01,AAA,sell,50,15,5,broker,KES

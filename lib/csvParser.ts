@@ -8,11 +8,25 @@
 
 import Papa from "papaparse";
 import { ParsedStatement, Transaction } from "@/types/portfolio";
-import { REQUIRED_CSV_COLUMNS, SAMPLE_CSV_ROWS, DEFAULT_CURRENCY } from "@/lib/constants";
+import {
+  REQUIRED_CSV_COLUMNS,
+  SAMPLE_CSV_ROWS,
+  DEFAULT_CURRENCY,
+  MAX_CSV_ROWS,
+  MAX_CSV_UPLOAD_BYTES,
+} from "@/lib/constants";
 import { normalizeFeeCategory } from "@/utils/feeCalculator";
 
 /** Core parser: raw CSV text in, validated transactions out. Works anywhere. */
 export function parseCsvText(csvText: string): ParsedStatement {
+  if (csvText.length > MAX_CSV_UPLOAD_BYTES) {
+    return {
+      transactions: [],
+      rowCount: 0,
+      errors: [`CSV exceeds the ${Math.floor(MAX_CSV_UPLOAD_BYTES / (1024 * 1024))}MB upload limit.`],
+    };
+  }
+
   const results = Papa.parse<Record<string, string>>(csvText, {
     header: true,
     skipEmptyLines: true,
@@ -39,6 +53,14 @@ function buildParsedStatement(
   rawRows: Record<string, string>[],
   fields: string[]
 ): ParsedStatement {
+  if (rawRows.length > MAX_CSV_ROWS) {
+    return {
+      transactions: [],
+      rowCount: 0,
+      errors: [`CSV has too many rows. Maximum allowed is ${MAX_CSV_ROWS}.`],
+    };
+  }
+
   const normalizedFields = fields.map((f) => f.trim().toLowerCase());
   const missing = REQUIRED_CSV_COLUMNS.filter((c) => !normalizedFields.includes(c));
 

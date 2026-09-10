@@ -1,0 +1,19 @@
+{
+  "canonical_schema": [
+    "date",
+    "symbol",
+    "type",
+    "quantity",
+    "price",
+    "fee",
+    "fee_type",
+    "currency"
+  ],
+  "rejection_reasons": [
+    "Missing required column(s)",
+    "No valid transaction rows were found",
+    "Could not read the file as UTF-8 text",
+    "CSV exceeds the 2MB upload limit",
+    "CSV has too many rows"
+  ]
+}

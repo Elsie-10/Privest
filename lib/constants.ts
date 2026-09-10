@@ -7,6 +7,8 @@ import { FeeCategory } from "@/types/portfolio";
 export const REQUIRED_CSV_COLUMNS = ["date", "symbol", "type", "quantity", "price"] as const;
 
 export const DEFAULT_CURRENCY = "KES";
+export const MAX_CSV_UPLOAD_BYTES = 2 * 1024 * 1024;
+export const MAX_CSV_ROWS = 10_000;
 
 export const ANTHROPIC_MODEL = "claude-sonnet-4-6";
 

@@ -23,6 +23,8 @@ rule-based fallback instead of failing the request.
 from __future__ import annotations
 
 import json
+import logging
+import re
 
 import httpx
 
@@ -31,6 +33,7 @@ from app.risk.rules import generate_recommendations
 from app.schemas.portfolio import Insight, PortfolioMetrics
 
 settings = get_settings()
+logger = logging.getLogger(__name__)
 
 _SYSTEM_PROMPT = (
     "You are a financial analyst assistant inside an investment app called "
@@ -133,7 +136,20 @@ async def _call_ai(prompt: str) -> str | None:
 
 async def get_insights(metrics: PortfolioMetrics) -> tuple[list[Insight], str | None]:
     """Returns (insights, reason). reason is set only when we fell back."""
+    summary = _summarize_metrics(metrics)
+    logger.info(
+        "ai.insights.request",
+        extra={
+            "event": "ai.insights.request",
+            "currency": summary["currency"],
+            "transactionCount": metrics.transaction_count,
+        },
+    )
     if not settings.ai_enabled:
+        logger.info(
+            "ai.insights.fallback",
+            extra={"event": "ai.insights.fallback", "reason": "no_api_key"},
+        )
         return _fallback_insights(metrics), "no_api_key"
 
     prompt = (
@@ -142,22 +158,38 @@ async def get_insights(metrics: PortfolioMetrics) -> tuple[list[Insight], str | 
         "portfolio. Respond ONLY with a JSON array of objects, no markdown "
         'fences, no preamble, in this exact shape: '
         '[{"tag":"short 2-3 word category label","text":"the insight sentence"}]. '
-        f"Portfolio summary: {json.dumps(_summarize_metrics(metrics))}"
+        f"Portfolio summary: {json.dumps(summary)}"
     )
 
     text = await _call_ai(prompt)
     if not text:
+        logger.info(
+            "ai.insights.fallback",
+            extra={"event": "ai.insights.fallback", "reason": "ai_unavailable"},
+        )
         return _fallback_insights(metrics), "ai_unavailable"
 
     try:
         cleaned = text.replace("```json", "").replace("```", "").strip()
         parsed = json.loads(cleaned)
         if isinstance(parsed, list) and parsed:
-            return [Insight(tag=i["tag"], text=i["text"]) for i in parsed[:6]], None
+            validated = _validate_insights(parsed, summary)
+            if validated:
+                logger.info(
+                    "ai.insights.success",
+                    extra={
+                        "event": "ai.insights.success",
+                        "insightCount": len(validated),
+                        "responseLength": len(cleaned),
+                    },
+                )
+                return validated, None
     except (json.JSONDecodeError, KeyError, TypeError):
         pass
 
-    return _fallback_insights(metrics), "empty_response"
+    reason = "invalid_insight_payload"
+    logger.info("ai.insights.fallback", extra={"event": "ai.insights.fallback", "reason": reason})
+    return _fallback_insights(metrics), reason
 
 
 async def chat(message: str, metrics: PortfolioMetrics | None, history: list[dict]) -> str:
@@ -169,12 +201,14 @@ async def chat(message: str, metrics: PortfolioMetrics | None, history: list[dic
 
     reply = await _call_ai(prompt)
     if reply:
+        logger.info("ai.chat.success", extra={"event": "ai.chat.success", "responseLength": len(reply)})
         return reply.strip()
 
     # Deterministic fallback so the chat panel still responds if no AI
     # backend is configured, using only the same verified metrics/rules
     # the rest of the app relies on.
     if metrics is None:
+        logger.info("ai.chat.fallback", extra={"event": "ai.chat.fallback", "reason": "missing_metrics"})
         return (
             "I don't have your portfolio metrics for this session yet — "
             "upload and analyze a statement first, then ask me again."
@@ -182,8 +216,35 @@ async def chat(message: str, metrics: PortfolioMetrics | None, history: list[dic
     recs = generate_recommendations(metrics)
     top = recs[0] if recs else None
     if top:
+        logger.info("ai.chat.fallback", extra={"event": "ai.chat.fallback", "reason": "rules_recommendation"})
         return f"{top.rationale} (Priority: {top.priority})."
+    logger.info("ai.chat.fallback", extra={"event": "ai.chat.fallback", "reason": "balanced_default"})
     return "Your portfolio looks balanced based on the current metrics — nothing urgent stands out."
+
+
+def _validate_insights(parsed: list[dict], summary: dict) -> list[Insight]:
+    allowed_numbers = _extract_numeric_tokens(json.dumps(summary))
+    out: list[Insight] = []
+    for item in parsed[:6]:
+        tag = item.get("tag")
+        text = item.get("text")
+        if not isinstance(tag, str) or not tag.strip():
+            return []
+        if not isinstance(text, str) or not text.strip():
+            return []
+        if not _numbers_are_grounded(text, allowed_numbers):
+            return []
+        out.append(Insight(tag=tag.strip(), text=text.strip()))
+    return out
+
+
+def _numbers_are_grounded(text: str, allowed_numbers: set[str]) -> bool:
+    numbers = _extract_numeric_tokens(text)
+    return numbers.issubset(allowed_numbers)
+
+
+def _extract_numeric_tokens(text: str) -> set[str]:
+    return set(re.findall(r"-?\d+(?:\.\d+)?", text))
 
 
 def _fallback_insights(m: PortfolioMetrics) -> list[Insight]:
