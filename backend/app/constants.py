@@ -8,6 +8,8 @@ because the frontend also renders them directly.
 REQUIRED_CSV_COLUMNS = ["date", "symbol", "type", "quantity", "price"]
 
 DEFAULT_CURRENCY = "KES"
+MAX_CSV_UPLOAD_BYTES = 2 * 1024 * 1024
+MAX_CSV_ROWS = 10000
 
 FEE_CATEGORY_LABELS = {
     "broker": "Broker Fees",

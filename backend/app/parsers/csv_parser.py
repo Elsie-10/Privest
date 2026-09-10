@@ -12,12 +12,19 @@ import io
 import pandas as pd
 
 from app.analytics.fees import normalize_fee_category
-from app.constants import DEFAULT_CURRENCY, REQUIRED_CSV_COLUMNS
+from app.constants import DEFAULT_CURRENCY, MAX_CSV_ROWS, MAX_CSV_UPLOAD_BYTES, REQUIRED_CSV_COLUMNS
 from app.schemas.portfolio import ParsedStatement, Transaction
 
 
 def parse_csv_text(csv_text: str) -> ParsedStatement:
     """Core parser: raw CSV text in, validated transactions out."""
+    if len(csv_text.encode("utf-8")) > MAX_CSV_UPLOAD_BYTES:
+        return ParsedStatement(
+            transactions=[],
+            row_count=0,
+            errors=[f"CSV exceeds the {MAX_CSV_UPLOAD_BYTES // (1024 * 1024)}MB upload limit."],
+        )
+
     try:
         df = pd.read_csv(io.StringIO(csv_text), dtype=str, keep_default_na=False)
     except Exception:
@@ -29,6 +36,13 @@ def parse_csv_text(csv_text: str) -> ParsedStatement:
 
     normalized_fields = [c.strip().lower() for c in df.columns]
     df.columns = normalized_fields
+
+    if len(df.index) > MAX_CSV_ROWS:
+        return ParsedStatement(
+            transactions=[],
+            row_count=0,
+            errors=[f"CSV has too many rows. Maximum allowed is {MAX_CSV_ROWS}."],
+        )
 
     missing = [c for c in REQUIRED_CSV_COLUMNS if c not in normalized_fields]
     if missing:

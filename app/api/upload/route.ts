@@ -21,6 +21,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { parseCsvText } from "@/domains/ingestion";
+import { MAX_CSV_UPLOAD_BYTES } from "@/domains/shared";
 
 export async function POST(req: NextRequest) {
   const contentType = req.headers.get("content-type") || "";
@@ -32,6 +33,16 @@ export async function POST(req: NextRequest) {
       const form = await req.formData();
       const file = form.get("file");
       if (file instanceof File) {
+        if (file.size > MAX_CSV_UPLOAD_BYTES) {
+          return NextResponse.json(
+            {
+              transactions: [],
+              rowCount: 0,
+              errors: [`CSV exceeds the ${Math.floor(MAX_CSV_UPLOAD_BYTES / (1024 * 1024))}MB upload limit.`],
+            },
+            { status: 413 }
+          );
+        }
         csvText = await file.text();
       }
     } else {
@@ -49,6 +60,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       { transactions: [], rowCount: 0, errors: ["No CSV content was provided."] },
       { status: 400 }
+    );
+  }
+
+  if (csvText.length > MAX_CSV_UPLOAD_BYTES) {
+    return NextResponse.json(
+      {
+        transactions: [],
+        rowCount: 0,
+        errors: [`CSV exceeds the ${Math.floor(MAX_CSV_UPLOAD_BYTES / (1024 * 1024))}MB upload limit.`],
+      },
+      { status: 413 }
     );
   }
 

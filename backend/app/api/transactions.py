@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
+from app.constants import MAX_CSV_UPLOAD_BYTES
 from app.parsers.csv_parser import build_sample_csv, parse_csv_text
 from app.schemas.portfolio import ParsedStatement, Transaction
 
@@ -25,6 +26,11 @@ async def import_transactions(file: UploadFile = File(...)) -> ParsedStatement:
         )
 
     raw = await file.read()
+    if len(raw) > MAX_CSV_UPLOAD_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"CSV exceeds the {MAX_CSV_UPLOAD_BYTES // (1024 * 1024)}MB upload limit.",
+        )
     try:
         text = raw.decode("utf-8-sig")
     except UnicodeDecodeError:
